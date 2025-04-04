@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
-const {sequelize} = require('../config/db'); // Adjust path as necessary
+const { sequelize } = require('../config/db'); // Adjust path as necessary
+const Question = require('./Question');
 
 const QuestionOption = sequelize.define(
     'QuestionOption',
@@ -7,7 +8,7 @@ const QuestionOption = sequelize.define(
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
-            autoIncrement : true,
+            autoIncrement: true,
         },
         questionId: {
             type: DataTypes.INTEGER,
@@ -34,7 +35,7 @@ const QuestionOption = sequelize.define(
             allowNull: true,
         },
         updatedBy: {
-            type:DataTypes.INTEGER,
+            type: DataTypes.INTEGER,
             allowNull: true,
         },
     },
@@ -44,11 +45,7 @@ const QuestionOption = sequelize.define(
     }
 );
 
-QuestionOption.associate = function (models) {
-    QuestionOption.belongsTo(models.Question, {
-        foreignKey: 'questionId',
-        as: 'question',
-    });
-};
+Question.hasMany(QuestionOption, { foreignKey: 'questionId' });
+QuestionOption.belongsTo(Question, { foreignKey: 'questionId' });
 
 module.exports = QuestionOption;

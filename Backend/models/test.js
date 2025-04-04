@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db'); // Adjust path as necessary
+const { sequelize } = require('../config/db'); // Adjust path as necessary
+const Question = require('./Question');
 
 const Test = sequelize.define(
     'Test',
@@ -47,13 +48,5 @@ const Test = sequelize.define(
         timestamps: true,
     }
 );
-
-Test.associate = function (models) {
-    Test.hasMany(models.Question, {
-        foreignKey: 'testId',
-        as: 'questions',
-        onDelete: 'CASCADE',
-    });
-};
 
 module.exports = Test;

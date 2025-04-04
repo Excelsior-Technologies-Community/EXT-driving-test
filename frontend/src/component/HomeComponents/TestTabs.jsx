@@ -1,21 +1,26 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const EnhancedTestTabs = () => {
   const [activeTab, setActiveTab] = useState('car');
+  const navigate = useNavigate();
 
-  // Test data for demonstration
+  const handleCardClick = () => {
+    navigate('/test-detail');
+  };
+
   const testData = {
     car: {
       title: "Start your G1 Test Preparation",
       description: "Congratulations! You're now one step closer to passing your official G1 test. Our practice tests mimic the real test with similar questions and the same scoring system used by MTO, giving you the confidence to pass on your first attempt.",
       nextTest: "G1 Diagnostic Test",
-      content: <CarTestSections />
+      content: <CarTestSections onCardClick={handleCardClick} />
     },
     motorcycle: {
       title: "Start your M1 Test Preparation",
       description: "Congratulations! You're now one step closer to passing your official M1 motorcycle test. Our practice tests mimic the real test with similar questions and the same scoring system used by MTO, giving you the confidence to pass on your first attempt.",
       nextTest: "M1 Motorcycle License Practice Test 1",
-      content: <MotorcycleHandbookSection />
+      content: <MotorcycleHandbookSection onCardClick={handleCardClick} />
     }
   };
 
@@ -63,8 +68,7 @@ const EnhancedTestTabs = () => {
   );
 };
 
-// Car Test Sections Component with Easy, Medium, Hard
-const CarTestSections = () => {
+const CarTestSections = ({ onCardClick }) => {
   return (
     <div>
       {/* Handbook Section */}
@@ -106,7 +110,10 @@ const CarTestSections = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Card 1 */}
-          <div className="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-lg hover:translate-y-1">
+          <div
+            className="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-lg hover:translate-y-1 cursor-pointer"
+            onClick={() => onCardClick('/practice-test-1')}
+          >
             <div className="relative">
               <img
                 src="/testimg1.jpg"
@@ -135,7 +142,10 @@ const CarTestSections = () => {
           </div>
 
           {/* Card 2 */}
-          <div className="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-lg hover:translate-y-1">
+          <div
+            className="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-lg hover:translate-y-1 cursor-pointer"
+            onClick={() => onCardClick('/practice-test-2')}
+          >
             <div className="relative">
               <img
                 src="/testimg2.jpg"
@@ -161,7 +171,10 @@ const CarTestSections = () => {
           </div>
 
           {/* Card 3 */}
-          <div className="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-lg hover:translate-y-1">
+          <div
+            className="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-lg hover:translate-y-1 cursor-pointer"
+            onClick={() => onCardClick('/practice-test-3')}
+          >
             <div className="relative">
               <img
                 src="/testimg3.jpg"
@@ -197,7 +210,10 @@ const CarTestSections = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Card 1 */}
-          <div className="bg-white rounded-lg overflow-hidden shadow-md transition-all duration-300 transform hover:scale-105 border-l-4 border-yellow-500">
+          <div
+            className="bg-white rounded-lg overflow-hidden shadow-md transition-all duration-300 transform hover:scale-105 border-l-4 border-yellow-500 cursor-pointer"
+            onClick={() => onCardClick('/intermediate-test-1')}
+          >
             <div className="flex flex-col md:flex-row">
               <div className="md:w-2/5">
                 <img
@@ -226,7 +242,10 @@ const CarTestSections = () => {
           </div>
 
           {/* Card 2 */}
-          <div className="bg-white rounded-lg overflow-hidden shadow-md transition-all duration-300 transform hover:scale-105 border-l-4 border-yellow-500">
+          <div
+            className="bg-white rounded-lg overflow-hidden shadow-md transition-all duration-300 transform hover:scale-105 border-l-4 border-yellow-500 cursor-pointer"
+            onClick={() => onCardClick('/intermediate-test-2')}
+          >
             <div className="flex flex-col md:flex-row">
               <div className="md:w-2/5">
                 <img
@@ -263,7 +282,10 @@ const CarTestSections = () => {
           <span className="bg-gray-100 text-gray-600 text-sm py-1 px-3 rounded-full">Step 4</span>
         </div>
 
-        <div className="relative bg-gradient-to-r from-gray-800 to-gray-900 rounded-xl overflow-hidden shadow-lg">
+        <div
+          className="relative bg-gradient-to-r from-gray-800 to-gray-900 rounded-xl overflow-hidden shadow-lg cursor-pointer"
+          onClick={() => onCardClick('/master-g1-test')}
+        >
           <div className="absolute inset-0 bg-black opacity-50"></div>
           <div className="relative p-6 md:p-8 text-white">
             <div className="flex flex-col md:flex-row items-center">
@@ -312,8 +334,7 @@ const CarTestSections = () => {
   );
 };
 
-// Motorcycle Handbook Section Component (maintained from original code)
-const MotorcycleHandbookSection = () => (
+const MotorcycleHandbookSection = ({ onCardClick }) => (
   <div>
     {/* Handbook Section */}
     <div className="flex items-center mb-6">
@@ -354,7 +375,10 @@ const MotorcycleHandbookSection = () => (
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Card 1 */}
-        <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-lg hover:translate-y-1">
+        <div
+          className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-lg hover:translate-y-1 cursor-pointer"
+          onClick={() => onCardClick('/m1-practice-test-1')}
+        >
           <div className="relative">
             <img
               src="/biketest2.jpg"
@@ -383,7 +407,10 @@ const MotorcycleHandbookSection = () => (
         </div>
 
         {/* Card 2 */}
-        <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-lg hover:translate-y-1">
+        <div
+          className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-lg hover:translate-y-1 cursor-pointer"
+          onClick={() => onCardClick('/m1-practice-test-2')}
+        >
           <div className="relative">
             <img
               src="/biketest3.jpg"
@@ -409,7 +436,10 @@ const MotorcycleHandbookSection = () => (
         </div>
 
         {/* Card 3 */}
-        <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-lg hover:translate-y-1">
+        <div
+          className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-lg hover:translate-y-1 cursor-pointer"
+          onClick={() => onCardClick('/m1-practice-test-3')}
+        >
           <div className="relative">
             <img
               src="/biketest4.jpg"
@@ -445,7 +475,10 @@ const MotorcycleHandbookSection = () => (
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Hard Card 1 */}
-        <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-lg hover:translate-y-1">
+        <div
+          className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-lg hover:translate-y-1 cursor-pointer"
+          onClick={() => onCardClick('/m1-fines-and-limits')}
+        >
           <div className="relative">
             <img
               src="/biketest5.jpg"
@@ -471,7 +504,10 @@ const MotorcycleHandbookSection = () => (
         </div>
 
         {/* Hard Card 2 */}
-        <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-lg hover:translate-y-1">
+        <div
+          className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-lg hover:translate-y-1 cursor-pointer"
+          onClick={() => onCardClick('/m1-road-signs')}
+        >
           <div className="relative">
             <img
               src="/biketest6.jpg"
@@ -497,7 +533,10 @@ const MotorcycleHandbookSection = () => (
         </div>
 
         {/* Hard Card 3 */}
-        <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-lg hover:translate-y-1">
+        <div
+          className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-lg hover:translate-y-1 cursor-pointer"
+          onClick={() => onCardClick('/m1-marathon')}
+        >
           <div className="relative">
             <img
               src="/biketest7.jpg"
@@ -531,7 +570,10 @@ const MotorcycleHandbookSection = () => (
         <span className="bg-gray-100 text-gray-600 text-sm py-1 px-3 rounded-full">Step 4</span>
       </div>
 
-      <div className="bg-gradient-to-r from-gray-800 to-gray-900 rounded-xl overflow-hidden shadow-lg mb-12">
+      <div
+        className="bg-gradient-to-r from-gray-800 to-gray-900 rounded-xl overflow-hidden shadow-lg mb-12 cursor-pointer"
+        onClick={() => onCardClick('/m1-test-simulator')}
+      >
         <div className="flex flex-col md:flex-row">
           <div className="md:w-1/2">
             <img

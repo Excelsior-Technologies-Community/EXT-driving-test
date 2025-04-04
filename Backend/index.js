@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const dotenv = require("dotenv");
 
+const testRoutes = require('./routes/testRoutes');
 const questionRoutes = require('./routes/questionRoutes');
 const optionRoutes = require('./routes/optionRoutes');
 
@@ -24,6 +25,7 @@ app.use(
 );
 
 // API routes
+app.use("/api/test", testRoutes);
 app.use("/api/question", questionRoutes);
 app.use("/api/option", optionRoutes);
 

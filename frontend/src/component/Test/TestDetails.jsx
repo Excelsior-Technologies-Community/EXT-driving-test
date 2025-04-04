@@ -4,6 +4,7 @@
 import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Check, ChevronDown, ChevronRight, HelpCircle, Lock, Play, Shield, Star, ThumbsUp, Video } from "lucide-react"
+import { useNavigate } from "react-router-dom" // Import useNavigate
 
 export default function TestDetail() {
   const [showDetails, setShowDetails] = useState(false)
@@ -12,6 +13,7 @@ export default function TestDetail() {
   const [hoverButton, setHoverButton] = useState("")
   const [scrollY, setScrollY] = useState(0)
   const headerRef = useRef(null)
+  const navigate = useNavigate() // Initialize useNavigate
 
   useEffect(() => {
     setIsVisible(true)
@@ -304,7 +306,10 @@ export default function TestDetail() {
                 onMouseLeave={() => setHoverButton(null)}
                 className="relative"
               >
-                <button className="w-full gap-2 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-base text-white px-4 py-2 rounded-lg flex items-center justify-center">
+                <button
+                  onClick={() => navigate("/quiz")} // Redirect to the free practice test page
+                  className="w-full gap-2 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-base text-white px-4 py-2 rounded-lg flex items-center justify-center"
+                >
                   <Play className="w-4 h-4" />
                   Start free practice test
                   <motion.div animate={{ x: hoverButton === "free" ? 5 : 0 }} transition={{ duration: 0.2 }}>
@@ -532,4 +537,3 @@ export default function TestDetail() {
     </div>
   )
 }
-

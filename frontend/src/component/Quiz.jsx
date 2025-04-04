@@ -1,12 +1,11 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-
+/* eslint-disable no-unused-vars */
 "use client"
 
 import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { CheckCircle, XCircle, AlertCircle, ChevronRight, Award, Activity, Clock, HelpCircle } from "lucide-react"
-
+import axios from 'axios';
 // Custom Progress component
 const Progress = ({ value, className, ...props }) => {
     return (
@@ -79,100 +78,23 @@ export default function Quiz() {
     // Hover state for animation
     const [hoveredOption, setHoveredOption] = useState(null)
 
-    // Sample questions data - in a real app, you would fetch this from an API
-    const questions = [
-        {
-            id: 1,
-            question: "What does this sign mean?",
-            image: "/placeholder.svg?height=300&width=400",
-            options: [
-                {
-                    id: "a",
-                    text: "Road under construction",
-                    isCorrect: false,
-                    explanation: "This is incorrect. This sign does not indicate construction.",
-                },
-                {
-                    id: "b",
-                    text: "Two-way traffic",
-                    isCorrect: false,
-                    explanation: "This is incorrect. Two-way traffic is indicated by a different sign.",
-                },
-                {
-                    id: "c",
-                    text: "Divided highway begins",
-                    isCorrect: true,
-                    explanation: "Correct! This sign indicates that a divided highway begins ahead.",
-                },
-                {
-                    id: "d",
-                    text: "Divided highway ends",
-                    isCorrect: false,
-                    explanation: "This is incorrect. The highway division is beginning, not ending.",
-                },
-            ],
-        },
-        {
-            id: 2,
-            question: "When should you use your high beam headlights?",
-            options: [
-                {
-                    id: "a",
-                    text: "On busy city streets",
-                    isCorrect: false,
-                    explanation: "This is incorrect. High beams can blind other drivers in busy areas.",
-                },
-                {
-                    id: "b",
-                    text: "When driving in foggy conditions",
-                    isCorrect: false,
-                    explanation: "This is incorrect. High beams reflect off fog and reduce visibility.",
-                },
-                {
-                    id: "c",
-                    text: "When following another vehicle closely",
-                    isCorrect: false,
-                    explanation: "This is incorrect. High beams can blind drivers through their mirrors.",
-                },
-                {
-                    id: "d",
-                    text: "On open roads with no oncoming traffic",
-                    isCorrect: true,
-                    explanation: "Correct! High beams should be used when there are no vehicles ahead or approaching.",
-                },
-            ],
-        },
-        {
-            id: 3,
-            question: "What is the speed limit in a school zone when children are present?",
-            options: [
-                {
-                    id: "a",
-                    text: "15 mph",
-                    isCorrect: true,
-                    explanation: "Correct! The speed limit is reduced to 15 mph in school zones when children are present.",
-                },
-                {
-                    id: "b",
-                    text: "25 mph",
-                    isCorrect: false,
-                    explanation: "This is incorrect. The speed limit is lower than 25 mph.",
-                },
-                {
-                    id: "c",
-                    text: "35 mph",
-                    isCorrect: false,
-                    explanation: "This is incorrect. This is too fast for a school zone.",
-                },
-                {
-                    id: "d",
-                    text: "45 mph",
-                    isCorrect: false,
-                    explanation: "This is incorrect. This speed would be dangerous in a school zone.",
-                },
-            ],
-        },
-    ]
+    // State to store fetched questions
+    const [questions, setQuestions] = useState([])
+
+    // Fetch questions from the API
+    useEffect(() => {
+        const fetchQuestions = async () => {
+            try {
+                const response = await axios.get('https://localhost:8000/api/test/1'); // Replace '1' with the actual ID
+                console.log(response.data);
+                setQuestions(response.data.questions); // Make sure the key matches your backend's response
+            } catch (error) {
+                console.error('Failed to fetch questions:', error);
+            }
+        };
+
+        fetchQuestions();
+    }, []);
 
     // Timer effect
     useEffect(() => {
@@ -234,7 +156,7 @@ export default function Quiz() {
         if (isAnswerSelected) return
 
         const currentQuestion = questions[currentQuestionIndex]
-        const selectedOption = currentQuestion.options.find((opt) => opt.id === optionId)
+        const selectedOption = currentQuestion.QuestionOptions.find((opt) => opt.id === optionId)
         const isCorrect = selectedOption.isCorrect
 
         // Update score
@@ -576,9 +498,9 @@ export default function Quiz() {
                                 >
                                     <div className="mb-6">
                                         <div className="flex items-center gap-2 mb-2">
-                                            <span className="bg-emerald-100 text-emerald-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                                            {/* <span className="bg-emerald-100 text-emerald-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
                                                 Question {currentQuestion.id} of {questions.length}
-                                            </span>
+                                            </span> */}
                                             {/* Time warning badge */}
                                             {timeRemaining <= 10 && !isAnswerSelected && (
                                                 <motion.span
@@ -592,10 +514,10 @@ export default function Quiz() {
                                                 </motion.span>
                                             )}
                                         </div>
-                                        <h2 className="text-2xl font-bold mb-4">{currentQuestion.question}</h2>
+                                        <h2 className="text-2xl font-bold mb-4">{currentQuestion.questionText}</h2>
 
                                         {/* Display image if available */}
-                                        {currentQuestion.image && (
+                                        {currentQuestion.questionImg && (
                                             <motion.div
                                                 className="mt-4 mb-6 overflow-hidden rounded-lg"
                                                 initial={{ opacity: 0, scale: 0.95 }}
@@ -603,7 +525,7 @@ export default function Quiz() {
                                                 transition={{ duration: 0.5, delay: 0.2 }}
                                             >
                                                 <img
-                                                    src={currentQuestion.image || "/placeholder.svg"}
+                                                    src={currentQuestion.questionImg}
                                                     alt="Question visual"
                                                     className="w-full object-cover rounded-lg shadow-sm"
                                                 />
@@ -613,7 +535,7 @@ export default function Quiz() {
 
                                     {/* Answer options */}
                                     <div className="space-y-4 mb-8">
-                                        {currentQuestion.options.map((option, index) => {
+                                        {currentQuestion.QuestionOptions.map((option, index) => {
                                             const isSelected = currentUserAnswer && currentUserAnswer.selectedOption === option.id
                                             const isHovered = hoveredOption === option.id
                                             let optionClass = "flex items-center gap-3 p-4 rounded-lg border border-slate-200 transition-all duration-200"
@@ -660,7 +582,7 @@ export default function Quiz() {
                                                 >
                                                     <span className={circleClass}>{checkmarkContent}</span>
                                                     <div className="flex-1">
-                                                        <p className={textClass}>{option.text}</p>
+                                                        <p className={textClass}>{option.optionText}</p>
 
                                                         {/* Explanation with animation */}
                                                         <AnimatePresence>
@@ -672,7 +594,7 @@ export default function Quiz() {
                                                                     exit={{ opacity: 0, height: 0 }}
                                                                     transition={{ duration: 0.3 }}
                                                                 >
-                                                                    {option.explanation}
+                                                                    {option.description}
                                                                 </motion.p>
                                                             )}
                                                         </AnimatePresence>
@@ -838,22 +760,22 @@ export default function Quiz() {
                     0% { transform: translateY(0) rotate(0deg); opacity: 1; }
                     100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
                 }
-                
+
                 @keyframes blob {
                     0% { transform: translate(0px, 0px) scale(1); }
                     33% { transform: translate(30px, -50px) scale(1.1); }
                     66% { transform: translate(-20px, 20px) scale(0.9); }
                     100% { transform: translate(0px, 0px) scale(1); }
                 }
-                
+
                 .animate-blob {
                     animation: blob 7s infinite;
                 }
-                
+
                 .animation-delay-2000 {
                     animation-delay: 2s;
                 }
-                
+
                 .animation-delay-4000 {
                     animation-delay: 4s;
                 }

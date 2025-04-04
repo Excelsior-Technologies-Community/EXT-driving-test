@@ -9,7 +9,7 @@ const storage = multer.diskStorage({
     let folder = path.join(__dirname, "../", "uploads");
     // Decide subfolder based on the field name or file type.
     if (file.fieldname === "questionImage") {
-      folder = path.join(folder, "assignments", "file");
+      folder = path.join(folder, "questionImage");
     }
 
 

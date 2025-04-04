@@ -1,3 +1,5 @@
+const Question = require('../models/Question');
+const QuestionOption = require('../models/QuestionOption');
 const Test = require('../models/Test');
 const APIError = require('../utils/APIError');
 
@@ -25,17 +27,36 @@ exports.getAllTests = async (req, res, next) => {
 exports.getTestById = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const test = await Test.findByPk(id);
 
+        // Fetch the test with the associated questions and question options
+        const test = await Test.findByPk(id, {
+            include: [
+                {
+                    model: Question,
+                    as: 'Questions', // Ensure this matches the alias used in the association
+                    include: [
+                        {
+                            model: QuestionOption,
+                            as: 'QuestionOptions', // Ensure this matches the alias used in the association
+                        },
+                    ],
+                },
+            ],
+        });
+
+        // If the test is not found, throw a 404 error
         if (!test) {
             throw new APIError('Test not found', 404);
         }
 
+        // Send the test data as JSON response
         res.json(test);
     } catch (error) {
+        // Pass the error to the next middleware (error handler)
         next(error);
     }
 };
+
 
 // Update Test by ID
 exports.updateTestById = async (req, res, next) => {
