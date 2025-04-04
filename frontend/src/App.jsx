@@ -5,6 +5,7 @@ import HomeLayout from "./component/HomeLayout/HomeLayout";
 import Home from "./component/Home/Home";
 import AboutUs from "./component/Home/About";
 import ContactUs from "./component/Home/Contact";
+import Test from "./component/Test/Test";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
       { path: "/about", element: <AboutUs /> },
       { path: "/contact", element: <ContactUs /> },
     ],
+  },
+  {
+    path: "/test",
+    element: <Test />
   },
 ]);
 
