@@ -5,9 +5,9 @@ const Test = sequelize.define(
     'Test',
     {
         id: {
-            type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV4,
+            type: DataTypes.INTEGER,
             primaryKey: true,
+            autoIncrement: true,
         },
         title: {
             type: DataTypes.STRING(255),
@@ -34,11 +34,11 @@ const Test = sequelize.define(
             allowNull: false,
         },
         createdBy: {
-            type: DataTypes.UUID,
+            type: DataTypes.INTEGER,
             allowNull: true,
         },
         updatedBy: {
-            type: DataTypes.UUID,
+            type: DataTypes.INTEGER,
             allowNull: true,
         },
     },

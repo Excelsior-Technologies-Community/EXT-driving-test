@@ -1,16 +1,16 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db'); // Adjust path as necessary
+const {sequelize} = require('../config/db'); // Adjust path as necessary
 
 const Question = sequelize.define(
     'Question',
     {
         id: {
-            type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV4,
+            type: DataTypes.INTEGER,
             primaryKey: true,
+            autoIncrement : true,
         },
         testId: {
-            type: DataTypes.UUID,
+            type: DataTypes.INTEGER,
             references: {
                 model: 'tests',
                 key: 'id',
@@ -30,11 +30,11 @@ const Question = sequelize.define(
             allowNull: true,
         },
         createdBy: {
-            type: DataTypes.UUID,
+            type: DataTypes.INTEGER,
             allowNull: true,
         },
         updatedBy: {
-            type: DataTypes.UUID,
+            type: DataTypes.INTEGER,
             allowNull: true,
         },
     },

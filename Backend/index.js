@@ -1,4 +1,3 @@
-
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -7,11 +6,9 @@ const dotenv = require("dotenv");
 const questionRoutes = require('./routes/questionRoutes');
 const optionRoutes = require('./routes/optionRoutes');
 
-
 dotenv.config();
-const sequelize = require('./config/db');
-// index.js or app.js
-const db = require('./models');
+const { sequelize } = require('./config/db'); // Import sequelize correctly
+
 const PORT = 8000;
 
 const app = express();
@@ -26,24 +23,22 @@ app.use(
   })
 );
 
-app.use("/api/question", questionRoutes); // Adjust the path as necessary
-app.use("/api/option", optionRoutes); // Adjust the path as necessary
+// API routes
+app.use("/api/question", questionRoutes);
+app.use("/api/option", optionRoutes);
 
-
-// Test the connection
-db.sequelize.authenticate()
+// Test the database connection and start the server
+sequelize.authenticate()
   .then(() => {
-    console.log('Database connection has been established successfully.');
-    // Sync all models
-    return db.sequelize.sync({ force: false, alter: false }); // Set force: true to drop tables and recreate
+    console.log('✅ Database connection has been established successfully.');
+    return sequelize.sync({ force: false, alter: false }); // Set force: true to reset tables
   })
   .then(() => {
-    console.log('Database synced');
-    // Start your server
+    console.log('✅ Database synced.');
     app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
+      console.log(`🚀 Server running on port ${PORT}`);
     });
   })
   .catch(err => {
-    console.error('Unable to connect to the database:', err);
+    console.error('❌ Unable to connect to the database:', err);
   });

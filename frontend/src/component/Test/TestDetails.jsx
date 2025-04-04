@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Check, ChevronDown, ChevronRight, HelpCircle, Lock, Play, Shield, Star, ThumbsUp, Video } from "lucide-react"
 
-export default function OntarioG1PracticeTestEnhanced() {
+export default function TestDetail() {
   const [showDetails, setShowDetails] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
   const [activeTab, setActiveTab] = useState("practice")
