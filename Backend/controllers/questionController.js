@@ -1,4 +1,5 @@
 const Question = require("../models/Question");
+const Test = require("../models/test");
 const APIError = require('../utils/APIError');
 
 // Create a Question
@@ -15,6 +16,12 @@ exports.createQuestion = async (req, res, next) => {
         // Construct the image URL from the uploaded file
         const questionImg = req.file ? "/questions/images/" + req.file.filename : null;
 
+        const test = await Test.findByPk(testId);
+        
+        if (!test) {
+            throw new APIError('Test not found', 404);
+        }
+        
         // Create the question record
         const newQuestion = await Question.create({
             testId,
@@ -85,7 +92,7 @@ exports.deleteQuestionById = async (req, res, next) => {
         }
 
         await question.destroy();
-        res.status(204).send();
+        res.status(200).json({ success: true, message: "Question Deleted Successfully." });
     } catch (error) {
         next(error);
     }

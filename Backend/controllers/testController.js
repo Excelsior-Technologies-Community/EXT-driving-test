@@ -1,4 +1,4 @@
-const Test = require('../models/Test');
+const Test = require('../models/test');
 const APIError = require('../utils/APIError');
 
 // Create a Test
@@ -65,7 +65,7 @@ exports.deleteTestById = async (req, res, next) => {
         }
 
         await test.destroy();
-        res.status(204).send();
+        res.status(200).json({success:true,message:"Test Deleted Successfully."});
     } catch (error) {
         next(error);
     }

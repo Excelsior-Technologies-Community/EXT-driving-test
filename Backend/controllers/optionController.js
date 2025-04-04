@@ -1,3 +1,4 @@
+const Question = require("../models/Question");
 const QuestionOption = require("../models/QuestionOption");
 const APIError = require('../utils/APIError');
 
@@ -12,6 +13,12 @@ exports.createQuestionOption = async (req, res, next) => {
             createdBy,
             updatedBy,
         } = req.body;
+
+        const question = await Question.findByPk(questionId);
+
+        if (!question) {
+            throw new APIError('Question not found', 404);
+        }
 
         // Create the question option record
         const newQuestionOption = await QuestionOption.create({
@@ -83,7 +90,7 @@ exports.deleteQuestionOptionById = async (req, res, next) => {
         }
 
         await questionOption.destroy();
-        res.status(204).send();
+        res.status(200).json({success:true,message:"Option Deleted Successfully."});
     } catch (error) {
         next(error);
     }

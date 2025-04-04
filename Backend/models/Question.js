@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const {sequelize} = require('../config/db'); // Adjust path as necessary
+const Test = require('./test');
 
 const Question = sequelize.define(
     'Question',
@@ -12,7 +13,7 @@ const Question = sequelize.define(
         testId: {
             type: DataTypes.INTEGER,
             references: {
-                model: 'tests',
+                model: Test,
                 key: 'id',
             },
             onDelete: 'CASCADE',

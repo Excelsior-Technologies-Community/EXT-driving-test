@@ -5,6 +5,8 @@ const dotenv = require("dotenv");
 
 const questionRoutes = require('./routes/questionRoutes');
 const optionRoutes = require('./routes/optionRoutes');
+const testRoutes = require("./routes/testRoutes");
+const errorHandler = require("./middleware/errorHandler");
 
 dotenv.config();
 const { sequelize } = require('./config/db'); // Import sequelize correctly
@@ -24,14 +26,18 @@ app.use(
 );
 
 // API routes
+app.use("/api/test", testRoutes);
 app.use("/api/question", questionRoutes);
 app.use("/api/option", optionRoutes);
+
+// Error Handling Middleware (MUST be the last middleware)
+app.use(errorHandler);
 
 // Test the database connection and start the server
 sequelize.authenticate()
   .then(() => {
     console.log('✅ Database connection has been established successfully.');
-    return sequelize.sync({ force: false, alter: false }); // Set force: true to reset tables
+    return sequelize.sync({ force: false, alter: true }); // Set force: true to reset tables
   })
   .then(() => {
     console.log('✅ Database synced.');
