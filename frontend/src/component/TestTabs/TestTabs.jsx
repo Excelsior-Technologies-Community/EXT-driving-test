@@ -26,8 +26,8 @@ const EnhancedTestTabs = () => {
         <div className="bg-gray-100 rounded-full p-1 inline-flex">
           <button
             className={`px-8 py-3 rounded-full transition-colors duration-300 ${activeTab === 'car'
-              ? 'bg-white text-gray-800 shadow-md'
-              : 'text-gray-600 hover:text-green-600'
+                ? 'bg-white text-gray-800 shadow-md'
+                : 'text-gray-600 hover:text-green-600'
               }`}
             onClick={() => setActiveTab('car')}
           >
@@ -35,8 +35,8 @@ const EnhancedTestTabs = () => {
           </button>
           <button
             className={`px-8 py-3 rounded-full transition-colors duration-300 ${activeTab === 'motorcycle'
-              ? 'bg-white text-gray-800 shadow-md'
-              : 'text-gray-600 hover:text-green-600'
+                ? 'bg-white text-gray-800 shadow-md'
+                : 'text-gray-600 hover:text-green-600'
               }`}
             onClick={() => setActiveTab('motorcycle')}
           >

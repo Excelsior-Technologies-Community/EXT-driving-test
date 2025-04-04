@@ -1,16 +1,15 @@
-// routes/questionRoutes.js
-const express = require('express');
+const express = require("express");
+const questionController = require("../controllers/questionController"); // Adjust the path as necessary
+const upload = require("../config/multerConfig"); // Adjust the path as necessary
 const router = express.Router();
-const questionController = require('../controllers/questionController');
-const upload = require('../config/multerConfig');
-const { validateQuestion } = require('../middleware/validation');
 
+// Public routes
 router.get('/', questionController.getAllQuestions);
-router.get('/random', questionController.getRandomQuestions);
+router.get('/:id', questionController.getQuestionById);
 
-// Protected routes (add auth middleware in production)
-router.post('/', upload.single('image'), validateQuestion, questionController.createQuestion);
-router.put('/:id', upload.single('image'), validateQuestion, questionController.updateQuestion);
-router.delete('/:id', questionController.deleteQuestion);
+// Protected routes (add auth middleware as needed)
+router.post('/',upload.fields('questionImage'), questionController.createQuestion);
+router.put('/:id', questionController.updateQuestionById);
+router.delete('/:id', questionController.deleteQuestionById);
 
 module.exports = router;
